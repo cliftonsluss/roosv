@@ -18,6 +18,14 @@ class Roosv
       array = CSV.read(file, encoding: "ASCII-8BIT:ASCII-8BIT")
     end
     @array = array
+    @cell = Hash.new
+    0.upto(@array.length - 1) do |r|
+      0.upto(@array[0].length - 1) do |c|
+        row = r + 1
+        col = c + 1
+        @cell.store([row,col],@array[r][c])
+      end
+    end
   end
 
   def default_sheet=(sheet)
@@ -55,14 +63,10 @@ class Roosv
       if col.class == String
         col = letter_to_number(col)
       end
-      @array[row - 1][col - 1]
+      @cell[[row,col]]
     rescue
       nil
     end
-  end
-
-  def array
-    @array
   end
 
   def letter_to_number(letters)
